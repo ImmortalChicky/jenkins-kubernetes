@@ -11,13 +11,16 @@ spec:
     spec:
       containers:
       - name: jenkins
-        image: jcsirot/jenkins-docker:2.0-alpine
+        image: kamshak/jenkins-docker:2.0-alpine
         ports:
           - containerPort: 8080
           - containerPort: 50000
         volumeMounts:
           - name: "jenkins-data"
             mountPath: "/var/jenkins_home"
+          - name: "jenkins-ssh"
+            mountPath: "/ssh-secrets"
+            readOnly: true
         livenessProbe:
           httpGet:
             path: /
@@ -29,3 +32,6 @@ spec:
           gcePersistentDisk:
             pdName: kubernetes-jenkins
             fsType: ext4
+        - name: "jenkins-ssh"
+          secret:
+            secretName: jenkins-ssh
