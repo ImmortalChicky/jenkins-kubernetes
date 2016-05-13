@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jcsirot/jenkins-docker:2.0-alpine
+        ports:
+          - containerPort: 8080
+          - containerPort: 50000
+        volumeMounts:
+          - name: "jenkins-data"
+            mountPath: "/var/jenkins_home"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+      volumes:
+        - name: "jenkins-data"
+          gcePersistentDisk:
+            pdName: kubernetes-jenkins
+            fsType: ext4
