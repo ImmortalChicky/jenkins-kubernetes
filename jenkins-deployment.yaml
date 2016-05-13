@@ -11,7 +11,9 @@ spec:
     spec:
       containers:
       - name: jenkins
-        image: kamshak/jenkins-docker:2.0-alpine
+        image: kamshak/jenkins-docker:alpine
+        securityContext:
+          runAsUser: 0
         ports:
           - containerPort: 8080
           - containerPort: 50000
@@ -23,7 +25,7 @@ spec:
             readOnly: true
         livenessProbe:
           httpGet:
-            path: /
+            path: /login
             port: 8080
           initialDelaySeconds: 60
           timeoutSeconds: 5
@@ -35,3 +37,4 @@ spec:
         - name: "jenkins-ssh"
           secret:
             secretName: jenkins-ssh
+
