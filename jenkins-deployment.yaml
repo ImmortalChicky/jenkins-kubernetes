@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: jenkins
-        image: kamshak/jenkins-docker:alpine
+        image: jenkins:2.3-alpine
         securityContext:
           runAsUser: 0
         ports:
@@ -37,4 +37,3 @@ spec:
         - name: "jenkins-ssh"
           secret:
             secretName: jenkins-ssh
-
