@@ -9,11 +9,12 @@ spec:
       labels:
         name: jenkins
     spec:
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
       containers:
       - name: jenkins
         image: jenkins:2.3-alpine
-        securityContext:
-          runAsUser: 0
         ports:
           - containerPort: 8080
           - containerPort: 50000
@@ -21,7 +22,7 @@ spec:
           - name: "jenkins-data"
             mountPath: "/var/jenkins_home"
           - name: "jenkins-ssh"
-            mountPath: "/ssh-secrets"
+            mountPath: "/var/jenkins_home/.ssh"
             readOnly: true
         livenessProbe:
           httpGet:
