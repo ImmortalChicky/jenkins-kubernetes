@@ -1,0 +1,4 @@
+UserKnownHostsFile /var/jenkins-home/.ssh/known-hosts
+Host github.com
+    User git
+    IdentityFile /var/jenkins-home/.ssh/jenkins
